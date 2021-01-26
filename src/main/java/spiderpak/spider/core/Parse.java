@@ -88,6 +88,10 @@ public class Parse implements Runnable {
                 try {
                     Server.pushMessage("parse处理中:"+Thread.currentThread());
                     task.getParse().parse(currentObj);
+                    if("over".equals(task.getTaskContext().get("state"))){
+                        spider.running=false;
+                        break;
+                    }
                     Thread.sleep(SUCCESS_DELAY);
                 } catch (Exception e) {
                     Server.pushMessage("!!!!parse--error：" + currentObj + "Number of try: " + currentErrorCount);
