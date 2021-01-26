@@ -7,31 +7,31 @@ import spiderpak.parsemodel.BaseParse;
 import spiderpak.parsemodel.BaseParseIm;
 import spiderpak.service.BasePageServiceImpl;
 import spiderpak.service.BaseService;
+import spiderpak.spider.core.MySpider;
 import spiderpak.struct.*;
 import spiderpak.utils.repeatfilter.BloomFilter;
 import spiderpak.utils.repeatfilter.RepeatFilter;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
- *提供api 根据models组装task任务组件 并启动和返回执行线程
+ *根据json组装task任务组件 并启动和返回执行线程
  */
 public class Control {
 
-    private UrlManager urlManager;
-    private RepeatFilter repeatFilter;
+    private UrlManager urlManager;//default: BaseUrlManagerImpl
+    private RepeatFilter repeatFilter;//default: BloomFilter
 
-    private Browser browser;
+    private Browser browser;//default: BaseAjaxBrowserImpl
 
-    private InfoBuffer infoBuffer;
+    private DataPipeline dataPipeline;//default: InfoBuffer
 
-    private BaseService pageService;//��task
+    private BaseService pageService;//default: BasePageServiceImpl
 
-    private BaseParse parse;//��task	private
+    private BaseParse parse;//default: BaseParseIm
 
-
-
-
+    private HashMap<String,SpiderRun> allSpider;
     public Thread CreateTh(String config)
     //(String ParseImplName,String PageServiceImplName ,String  BrowserImplName	,String UrlManagerImplName,String RepeatFilterName)
     {
@@ -39,9 +39,11 @@ public class Control {
         JSONObject argJson =JSONObject.fromObject(config);
         JSONObject start = argJson.getJSONObject("start");
         if(start!=null){
-            SpiderRun letgo = new SpiderRun(init(start,argJson.getString("name")));
+            TaskComponent taskComponent = init(start,argJson.getString("name"));
 
+            SpiderRun letgo = new SpiderRun(taskComponent);
             Thread t = new Thread(letgo);
+
             t.start();
             return t;
         }else {
@@ -52,7 +54,7 @@ public class Control {
 
    private class SpiderRun implements Runnable {
         TaskComponent task = null;
-
+        MySpider spider = null;
 
         SpiderRun(TaskComponent task) {
             this.task = task;
@@ -61,9 +63,9 @@ public class Control {
         @Override
         public void run() {
             Server.pushMessage("任务开始");
-            MySpider spider = new MySpider(task);
+            spider = new MySpider(task);
             try {
-                spider.runspider();
+                spider.start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -101,10 +103,10 @@ public class Control {
             }
             if ( !"".equals(config.getOrDefault("infoBuffer",""))) {
                 Server.pushMessage(config.getString("infoBuffer"));
-                infoBuffer = (InfoBuffer) Class.forName(config.getString("infoBuffer")).newInstance();
+                dataPipeline = (DataPipeline) Class.forName(config.getString("infoBuffer")).newInstance();
 
             }else {
-                infoBuffer = new InfoBuffer();
+                dataPipeline = new DataPipeline();
             }
             if ( !"".equals(config.getOrDefault("pageService",""))) {
                 Server.pushMessage(config.getString("pageService"));
@@ -120,7 +122,7 @@ public class Control {
             }else {
                 parse = new BaseParseIm();//��task	private
             }
-            task = new TaskComponent(urlManager, repeatFilter, browser, infoBuffer, pageService, parse,name);
+            task = new TaskComponent(urlManager, repeatFilter, browser, dataPipeline, pageService, parse,name);
 
         } catch (Exception e) {
             Server.pushMessage("组装task异常");

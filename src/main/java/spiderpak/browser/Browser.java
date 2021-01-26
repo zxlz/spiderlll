@@ -8,9 +8,9 @@ import java.security.PrivateKey;
 import java.util.HashMap;
 
 
-public interface  Browser {
+public interface  Browser<T1> {
 	public  void setTaskContext(HashMap taskContext);
-	public  WebClient getWc();
-	public HtmlPage download(String url) throws Exception;
+//	public  WebClient getWc();
+	public T1 download(String url) throws Exception;
 	public  void proxy(boolean use);
 }

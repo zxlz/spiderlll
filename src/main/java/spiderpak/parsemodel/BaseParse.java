@@ -11,6 +11,11 @@ public abstract class BaseParse {
 	}
 
 
-
-abstract public long go(HtmlPage page,String visitUrl)throws Exception ;
+	/**
+	 *
+	 * @param
+	 * @return
+	 * @throws Exception
+	 */
+	abstract public long parse(Object o)throws Exception ;
 }

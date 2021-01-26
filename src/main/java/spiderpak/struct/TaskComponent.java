@@ -13,18 +13,18 @@ public class TaskComponent {
 	private RepeatFilter repeatFilter;
 	private Browser browser;
 	
-	private InfoBuffer infoBuffer;
+	private DataPipeline dataPipeline;
 	private BaseService pageService;//��task
 	private BaseParse parse;//��task
 	
 	
 	
-	public TaskComponent(UrlManager urlManager, RepeatFilter repeatFilter, Browser browser, InfoBuffer infoBuffer,
+	public TaskComponent(UrlManager urlManager, RepeatFilter repeatFilter, Browser browser, DataPipeline dataPipeline,
                          BaseService pageService, BaseParse parse, String name) {
 		this.urlManager = urlManager;
 		this.repeatFilter = repeatFilter;
 		this.browser = browser;
-		this.infoBuffer = infoBuffer;
+		this.dataPipeline = dataPipeline;
 		this.pageService = pageService;
 		if(pageService!=null){
 			pageService.setTask(this);
@@ -53,11 +53,12 @@ public class TaskComponent {
 	public void setBrowser(Browser browser) {
 		this.browser = browser;
 	}
-	public InfoBuffer getInfoBuffer() {
-		return infoBuffer;
+	public DataPipeline getDataPipeline() {
+		return dataPipeline;
 	}
-	public void setInfoBuffer(InfoBuffer infoBuffer) {
-		this.infoBuffer = infoBuffer;
+
+	public void setDataPipeline(DataPipeline dataPipeline) {
+		this.dataPipeline = dataPipeline;
 	}
 	public BaseService getPageService() {
 		return pageService;
@@ -82,4 +83,6 @@ public class TaskComponent {
 	public void setTaskContext(HashMap taskContext) {
 		this.taskContext = taskContext;
 	}
+
+
 }

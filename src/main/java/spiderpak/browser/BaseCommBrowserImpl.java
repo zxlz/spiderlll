@@ -32,10 +32,10 @@ public class BaseCommBrowserImpl implements Browser {
 
 	}
 
-	@Override
-	public WebClient getWc() {
-		return wc;
-	}
+//	@Override
+//	public WebClient getWc() {
+//		return wc;
+//	}
 
 	@Override
 	public HtmlPage download(String url) throws Exception {

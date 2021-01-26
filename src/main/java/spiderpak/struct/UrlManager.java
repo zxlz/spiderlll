@@ -1,30 +1,33 @@
 package spiderpak.struct;
 
+import java.util.concurrent.TimeUnit;
+
 public interface UrlManager {
 
-	// ��ӵ����ʹ���URL������
+	// 添加已访问地址
 	public  void addVisitedUrl(String url) ;
 
-	// �Ƴ����ʹ���URL
+	// 移除已访问地址
 	public  void removeVisitedUrl(String url);
 
-	// δ���ʵ�URL���׳�����
-	public  Object unVisitedUrlDeQueue() ;
+	// 取未访问地址
+	public  String unVisitedUrlDeQueue() ;
+	public  String unVisitedUrlDeQueue(long timeout, TimeUnit unit) throws InterruptedException;
 	
-	//��ӵ�δ���ʵ�URL�Ķ��ף�����Ҫ��֤ÿ��URLֻ������һ��
-	public  boolean enfiQueue(String url);
 
-	// ���δ���ʵ�URL�Ķ�β,����Ҫ��֤ÿ��URLֻ������һ��
-	public  boolean addUnvisitedUrl(String url);
+
+	// 添加未访问地址
+	public  boolean addUnvisitedUrl(String url) throws InterruptedException;
 
 	
-	// ����Ѿ����ʵ�URL��Ŀ
+	// 获取已访问数量
 	public  long getVisitedUrlNum();
 
-	// �ж�δ���ʵ�URL�������Ƿ�Ϊ��
+	// 未访问是否空
 	public  boolean unVisitedUrlIsEmpty();
 	
-	// ��ȡδ���ʵ�URL��Ŀ
+	// 获取未访问数量
 	public  long unVisitedUrlNum();
+	//
 	public boolean vistiedContains(String url);
 }

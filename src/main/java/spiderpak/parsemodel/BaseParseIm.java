@@ -5,11 +5,12 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class BaseParseIm extends BaseParse{
 
 
+
+
 	@Override
-	public long go(HtmlPage page, String visitUrl) throws Exception {
-		System.out.println(visitUrl);
-		System.out.println(page.getBody());
+	public long parse(Object o) throws Exception {
+		System.out.println(((HtmlPage)o).getUrl());
+		System.out.println(((HtmlPage)o).getBody());
 		return 1;
 	}
-
 }

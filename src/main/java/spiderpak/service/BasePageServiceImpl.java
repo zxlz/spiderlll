@@ -10,7 +10,7 @@ import spiderpak.struct.InfoBean;
 import spiderpak.utils.sqlConn;
 
 
-public class BasePageServiceImpl extends BaseService{
+public class BasePageServiceImpl<E> extends BaseService<E>{
 
 
 	public BasePageServiceImpl() {
@@ -44,7 +44,8 @@ public class BasePageServiceImpl extends BaseService{
 	}
 
 	@Override
-	public int addArticles(InfoBean info) throws SQLException {
+	public int addData(E info) throws SQLException {
+
 		return 0;
 	}
 

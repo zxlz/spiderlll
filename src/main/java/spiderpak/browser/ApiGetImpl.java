@@ -27,13 +27,13 @@ public class ApiGetImpl implements Browser {
 		this.taskContext=taskContext;
 	}
 
-	@Override
-	public WebClient getWc() {		
-		return wc;
-	}
+//	@Override
+//	public WebClient getWc() {
+//		return wc;
+//	}
 
 	@Override
-	public HtmlPage download(String url) throws Exception {
+	public String download(String url) throws Exception {
 
 		URL obj = new URL(url);
 		HttpURLConnection con;
@@ -76,9 +76,9 @@ public class ApiGetImpl implements Browser {
 
 		//打印结果
 		System.out.println(response.toString().length());
-		taskContext.put("apiResult",response.toString());
-
-		return null;
+//		taskContext.put("apiResult",response.toString());
+		String str=url+" "+response.toString();
+		return str;
 	}
 
 	@Override

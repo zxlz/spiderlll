@@ -2,9 +2,9 @@ package spiderpak.struct;
 
 import java.util.LinkedList;
 
+@Deprecated
 public class Queue {
 	private LinkedList<Object> queue = new LinkedList<Object>();
-
 	 void enQueue(Object t) {
 		queue.addLast(t);
 	}
