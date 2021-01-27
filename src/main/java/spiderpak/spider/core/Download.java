@@ -64,19 +64,22 @@ public class Download implements Runnable {
             String currUrl=null;
             try {
                 currUrl= task.getUrlManager().unVisitedUrlDeQueue(pollDelay, TimeUnit.SECONDS);
-                task.getUrlManager().addVisitedUrl(currUrl);//几率小，下载结果还会去重，所以不锁
+                if(currUrl==null){
+                    if(pollDelay<MAX_POLL_DELAY){
+                        pollDelay++;
+                    }else{
+                        //polldelay到了最大，设置为空闲
+                        isIdle=true;
+                    }
+                    continue;
+                }else{
+                    task.getUrlManager().addVisitedUrl(currUrl);//几率小，下载结果还会去重，所以不锁
+                }
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(currUrl==null){
-                if(pollDelay<MAX_POLL_DELAY){
-                    pollDelay++;
-                }else{
-                    //polldelay到了最大，设置为空闲
-                    isIdle=true;
-                }
-                break;
-            }
+
             pollDelay=INITIAL_POLL_DELAY;
             isIdle=false;
 
@@ -88,6 +91,7 @@ public class Download implements Runnable {
                     Object content = task.getBrowser().download(currUrl);
 //                  task.getParse().go(content, currUrl);
                     task.getDataPipeline().OriginalDataPut(content);
+                    currUrl=null;
                     Thread.sleep(SUCCESS_DELAY);
                 } catch (Exception e) {
                     Server.pushMessage("connect--error：" + currUrl + "Number of try: " + currentErrorCount);
@@ -100,6 +104,7 @@ public class Download implements Runnable {
             }
 
         }
+        isIdle=true;
         state=DownloadState.ENDED;
     }
     protected String handleException(int err_try,String currUrl) {

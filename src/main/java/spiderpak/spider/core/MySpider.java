@@ -53,7 +53,7 @@ public class MySpider {
 				}
 			}
 			running=false;
-
+			Server.pushMessage("endding...");
 			//等待各部分安全结束
 			while(!(download.state== Download.DownloadState.ENDED
 					&& parse.state== Parse.ParseState.ENDED
@@ -80,22 +80,25 @@ public class MySpider {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-
+			Server.pushMessage("ended");
 
 	};
 	private void startDowload(){
+		Server.pushMessage("start dowloadThread");
 		download = new Download(task,this);
 		String threadName = getName() + "-download";
 		Thread t = new Thread(download, threadName);
 		t.start();
 	}
 	private void startParse(){
+		Server.pushMessage("start parseThread");
 		parse = new Parse(task,this);
 		String threadName = getName() + "-parse";
 		Thread t = new Thread(parse, threadName);
 		t.start();
 	}
 	private void startStorage(){
+		Server.pushMessage("start storageThread");
 		storage = new Storage(task,this);
 		String threadName = getName() + "-storage";
 		Thread t = new Thread(storage, threadName);

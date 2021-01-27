@@ -77,7 +77,7 @@ public class Storage implements Runnable {
                 }else{
                     isIdle=true;
                 }
-                break;
+                continue;
             }
             pollDelay=INITIAL_POLL_DELAY;
             isIdle=false;
@@ -88,6 +88,7 @@ public class Storage implements Runnable {
                 try {
                     Server.pushMessage("存储中：" + Thread.currentThread());
                     task.getPageService().addData(currentObj);
+                    currentObj=null;
                     Thread.sleep(SUCCESS_DELAY);
                 } catch (Exception e) {
                     Server.pushMessage("!!!!storage--error：" + currentObj + "Number of try: " + currentErrorCount);
@@ -98,6 +99,7 @@ public class Storage implements Runnable {
 
             }
         }
+        isIdle=true;
         state= StorageState.ENDED;
     }
     protected Object handleException(int err_try,Object currentObj) {

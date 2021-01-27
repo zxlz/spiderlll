@@ -77,7 +77,7 @@ public class Parse implements Runnable {
                 }else{
                     isIdle=true;
                 }
-                break;
+                continue;
             }
             pollDelay=INITIAL_POLL_DELAY;
             isIdle=false;
@@ -88,6 +88,7 @@ public class Parse implements Runnable {
                 try {
                     Server.pushMessage("parse处理中:"+Thread.currentThread());
                     task.getParse().parse(currentObj);
+                    currentObj=null;
                     if("over".equals(task.getTaskContext().get("state"))){
                         spider.running=false;
                         break;
@@ -102,6 +103,7 @@ public class Parse implements Runnable {
 
             }
         }
+        isIdle=true;
         state= ParseState.ENDED;
     }
     protected Object handleException(int err_try,Object currentObj) {
