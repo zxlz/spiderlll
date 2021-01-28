@@ -1,11 +1,7 @@
 package spiderpak.struct;
 
-import java.util.LinkedList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-
-import org.omg.CORBA.TIMEOUT;
-import spiderpak.utils.BeanFactory;
 
 
 public class DataPipeline<T1,T2> {
@@ -28,6 +24,12 @@ public class DataPipeline<T1,T2> {
 		//阻塞放入
 		originalData.put(info);
 		return true;
+	}
+	public int OriginalDataSize()  {
+		return originalData.size();
+	}
+	public int OutDataSize()  {
+		return outData.size();
 	}
 	public boolean OutDataPut(T2 info) throws InterruptedException {
 //		if(BeanFactory.getRepeatFilter().isExit(url+title)){//�������ǰȫ��ȥ��

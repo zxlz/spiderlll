@@ -77,7 +77,7 @@ public class MySpider {
 
 			try {
 				task.getPageService().serviceDestroy();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			Server.pushMessage("ended");
