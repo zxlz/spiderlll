@@ -2,6 +2,7 @@ package spiderpak.spider.core;
 
 import spiderpak.spider.Server;
 import spiderpak.struct.TaskComponent;
+import spiderpak.utils.Log;
 
 import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
@@ -86,12 +87,12 @@ public class Storage implements Runnable {
             currentErrorCount=0;
             while (currentObj!=null) {
                 try {
-                    Server.pushMessage("存储中：" + Thread.currentThread());
+                    Log.info("存储中：" + Thread.currentThread());
                     task.getPageService().addData(currentObj);
                     currentObj=null;
                     Thread.sleep(SUCCESS_DELAY);
                 } catch (Exception e) {
-                    Server.pushMessage("!!!!storage--error：" + currentObj + "Number of try: " + currentErrorCount);
+                    Log.severe("!!!!storage--error：" + currentObj + "Number of try: " + currentErrorCount);
                     currentObj = handleException(++currentErrorCount,currentObj);
                     errorDelay = handleExceptionWithDelay(errorDelay);
                     e.printStackTrace();

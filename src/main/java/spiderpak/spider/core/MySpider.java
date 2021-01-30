@@ -1,13 +1,8 @@
 package spiderpak.spider.core;
 
-
-import java.sql.SQLException;
 import java.util.HashSet;
-
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
-import spiderpak.spider.Server;
 import spiderpak.struct.TaskComponent;
+import spiderpak.utils.Log;
 
 public class MySpider {
 	protected volatile boolean running = false;
@@ -32,7 +27,8 @@ public class MySpider {
 			paused = false;
 			setName((String) task.getTaskContext().get("name"));
 			try {
-				task.getPageService().serviceInit();
+				task.getPageService().init();
+				task.getParse().init();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -53,7 +49,7 @@ public class MySpider {
 				}
 			}
 			running=false;
-			Server.pushMessage("endding...");
+			Log.info("endding...");
 			//等待各部分安全结束
 			while(!(download.state== Download.DownloadState.ENDED
 					&& parse.state== Parse.ParseState.ENDED
@@ -69,36 +65,37 @@ public class MySpider {
 			if (task.getTaskContext().containsKey("downloadErr")){
 				HashSet<String> set = (HashSet<String>) task.getTaskContext().get("downloadErr");
 				for(String str:set){
-					Server.pushMessage("end----downloadErr:"+str);
+					Log.severe("end----downloadErr:"+str);
 				}
 			}
 
 // Service关闭连接
 
 			try {
-				task.getPageService().serviceDestroy();
+				task.getPageService().destroy();
+				task.getParse().destroy();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			Server.pushMessage("ended");
+			Log.info("ended");
 
 	};
 	private void startDowload(){
-		Server.pushMessage("start dowloadThread");
+		Log.info("start dowloadThread");
 		download = new Download(task,this);
 		String threadName = getName() + "-download";
 		Thread t = new Thread(download, threadName);
 		t.start();
 	}
 	private void startParse(){
-		Server.pushMessage("start parseThread");
+		Log.info("start parseThread");
 		parse = new Parse(task,this);
 		String threadName = getName() + "-parse";
 		Thread t = new Thread(parse, threadName);
 		t.start();
 	}
 	private void startStorage(){
-		Server.pushMessage("start storageThread");
+		Log.info("start storageThread");
 		storage = new Storage(task,this);
 		String threadName = getName() + "-storage";
 		Thread t = new Thread(storage, threadName);

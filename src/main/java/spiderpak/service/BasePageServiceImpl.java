@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import spiderpak.utils.sqlConn;
 
 
 public class BasePageServiceImpl<E> extends BaseService<E>{
@@ -18,27 +17,24 @@ public class BasePageServiceImpl<E> extends BaseService<E>{
  
 	
 	
-	public boolean serviceInit()  {
+	public void init()  {
 
 
 		try {
 			preViUrl();
 			preUnViUrl();
-			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
-			
 		}
 		
 		 
 		
 	}
 
-	public void serviceDestroy() throws SQLException {
+	public void destroy() throws SQLException {
 
 
-		System.out.println("Destory");
+		System.out.println("destroy");
 
 	}
 

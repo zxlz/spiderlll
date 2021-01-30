@@ -1,6 +1,6 @@
 package spiderpak.utils;
 
-import spiderpak.spider.Server;
+
 
 public class format {
 
@@ -17,7 +17,7 @@ public class format {
 		if(str2.length()==8){
 		return str2;
 		}else {
-			Server.pushMessage("��ʽ��timeʧ��");
+			Log.info("��ʽ��timeʧ��");
 			return "19990101";
 		}
 	}
@@ -26,7 +26,7 @@ public class format {
 			str=str.split(a, 2)[1];
 			str=str.split(a)[0];
 		} catch (Exception e) {
-			Server.pushMessage("cut�ַ���ʧ��");
+			Log.severe("cut error");
 			return "0";
 		}
 		

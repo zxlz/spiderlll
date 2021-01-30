@@ -14,22 +14,22 @@ sample:
                               storage，从产出管道取一个任务，给service模块持久化
                 3.暂停，空闲 状态检测，结束退出
 
-结束过程： 1。spider线程发现3个子线程均为空闲，spider线程状态不再运行，
-         2。子线程检查点发现后安全退出，
+结束过程： 1。spider线程发现3个子线程均为"空闲"，spider线程状态不再运行，
+         2。子线程在检查点发现后安全退出，
          3。所有子线程均退出后，spider继续执行结束
          
 
-必须扩展
+必须扩展：
 1.service持久化部分（存储结果，初始化种子url和去重）
 2.parse内容解析部分 （解析下载的html或json内容，也可以提取新url）
 
-可选扩展
+可选扩展：
 url管理模块
 browser下载器模块
 repeatFilter去重模块
 
 下载模块有 httpconnection、普通浏览器、ajax浏览器等
 
-其他：taskcontent，任务上下文
+其他：taskcontent：任务上下文
 
-实现方式：实现需要扩展模块接口或抽象类，json传入
+使用方式：实现需要扩展模块接口或抽象类，json传入

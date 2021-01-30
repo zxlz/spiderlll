@@ -2,6 +2,7 @@ package spiderpak.spider.core;
 
 import spiderpak.spider.Server;
 import spiderpak.struct.TaskComponent;
+import spiderpak.utils.Log;
 
 import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
@@ -86,7 +87,7 @@ public class Parse implements Runnable {
             currentErrorCount=0;
             while (currentObj!=null) {
                 try {
-                    Server.pushMessage("parse处理中:"+Thread.currentThread());
+                    Log.info("parse处理中:"+Thread.currentThread());
                     task.getParse().parse(currentObj);
                     currentObj=null;
                     if("over".equals(task.getTaskContext().get("state"))){
@@ -95,7 +96,7 @@ public class Parse implements Runnable {
                     }
                     Thread.sleep(SUCCESS_DELAY);
                 } catch (Exception e) {
-                    Server.pushMessage("!!!!parse--error：" + currentObj + "Number of try: " + currentErrorCount);
+                    Log.severe("!!!!parse--error：" + currentObj + "Number of try: " + currentErrorCount);
                     currentObj = handleException(++currentErrorCount,currentObj);
                     errorDelay = handleExceptionWithDelay(errorDelay);
                     e.printStackTrace();

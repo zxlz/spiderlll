@@ -2,6 +2,7 @@ package spiderpak.spider.core;
 
 import spiderpak.spider.Server;
 import spiderpak.struct.TaskComponent;
+import spiderpak.utils.Log;
 
 import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
@@ -21,6 +22,7 @@ public class Download implements Runnable {
 
     protected volatile DownloadState state = DownloadState.NEW;
     private  volatile boolean isIdle = false;
+
     public Download( TaskComponent task,MySpider spider) {
         this.task = task;
         this.spider=spider;
@@ -87,18 +89,18 @@ public class Download implements Runnable {
             currentErrorCount=0;
             while (currUrl!=null) {
                 try {
-                    Server.pushMessage("获取中" + currUrl);
+                    Log.info("获取中" + currUrl);
                     Object content = task.getBrowser().download(currUrl);
 //                  task.getParse().go(content, currUrl);
                     task.getDataPipeline().OriginalDataPut(content);
                     currUrl=null;
                     Thread.sleep(SUCCESS_DELAY);
                 } catch (Exception e) {
-                    Server.pushMessage("connect--error：" + currUrl + "Number of try: " + currentErrorCount);
+                    Log.severe("connect--error：" + currUrl + "Number of try: " + currentErrorCount);
                     currUrl=handleException(++currentErrorCount,currUrl);
 //				    task.getBrowser().proxy(true);//open proxy
                     errorDelay = handleExceptionWithDelay(errorDelay);
-                    e.printStackTrace();
+                    e.getMessage();
                 }
 
             }

@@ -1,6 +1,7 @@
 package spiderpak.spider;
 
 import javafx.concurrent.Task;
+import org.apache.commons.logging.LogFactory;
 import spiderpak.struct.TaskComponent;
 
 import java.io.BufferedReader;
@@ -32,7 +33,7 @@ public class Server extends ServerSocket {
 		 new Server();
 	 }
 
-     public static void pushMessage(String msg){
+     private static void pushMessage(String msg){
          String time=df.format(new Date());
 //    	 messages.addLast(time+":"+msg);
 //         hasPrint =true;
@@ -41,8 +42,8 @@ public class Server extends ServerSocket {
 //         pw.println(time+":"+msg);
          System.out.println(time+":"+msg);
      }
-	   
-	
+
+
      
      public Server() throws IOException {
 		super(SERVER_PORT);

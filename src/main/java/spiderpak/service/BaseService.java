@@ -10,8 +10,8 @@ public abstract class BaseService<E> {
 	public void setTask(TaskComponent task) {
 		this.task = task;
 	}
-	public abstract boolean serviceInit()throws Exception;
-	public abstract void serviceDestroy()throws Exception ;
+	public abstract void init()throws Exception;
+	public abstract void destroy()throws Exception ;
 	public abstract int addData(E info) throws Exception;
 	 
 }

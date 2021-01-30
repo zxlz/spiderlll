@@ -17,5 +17,7 @@ public abstract class BaseParse {
 	 * @return
 	 * @throws Exception
 	 */
-	abstract public long parse(Object o)throws Exception ;
+	public abstract long parse(Object o)throws Exception ;
+	public  abstract void init()throws Exception;
+	public  abstract void destroy()throws Exception;
 }
