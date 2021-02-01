@@ -1,7 +1,7 @@
 # spiderlll
  以前写爬虫总结出的一个快速开发框架，spiderll分支是下载、解析、存储顺序执行的版本
 
- sample:
+ sample: https://github.com/zxlz/proxypool
 
 * 启动方法：传入json参数{...}  
    * 方法1. 直接control.CreateTh 传入json配置  
